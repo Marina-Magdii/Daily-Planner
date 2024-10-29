@@ -1,9 +1,10 @@
-import 'package:daily_planner/core/routes_manager.dart';
-import 'package:daily_planner/core/strings_manager.dart';
+import 'package:daily_planner/core/style/routes_manager.dart';
+import 'package:daily_planner/core/style/strings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class GetStarted extends StatelessWidget {
   const GetStarted({super.key});
@@ -17,8 +18,9 @@ class GetStarted extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topLeft,
-                child: SvgPicture.asset(StringsManager.bgImage)).animate().fade(duration: const Duration(seconds: 4)),
-            SvgPicture.asset(StringsManager.getImage).animate().fade(duration: const Duration(seconds: 4)),
+                child: SvgPicture.asset(StringsManager.bgImage)).animate().fade(
+                duration: const Duration(seconds: 4)),
+            Lottie.asset(StringsManager.getImage),
             Padding(
               padding:REdgeInsets.only(
                 left: 50,

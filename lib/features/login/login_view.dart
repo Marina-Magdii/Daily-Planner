@@ -1,9 +1,10 @@
-import 'package:daily_planner/core/colors_manager.dart';
+import 'package:daily_planner/core/state_management/auth_provider.dart';
+import 'package:daily_planner/core/style/colors_manager.dart';
 import 'package:daily_planner/core/firebase/firestore_helper.dart';
 import 'package:daily_planner/core/firebase/user.dart'as MyUser;
-import 'package:daily_planner/core/regex.dart';
-import 'package:daily_planner/core/routes_manager.dart';
-import 'package:daily_planner/core/strings_manager.dart';
+import 'package:daily_planner/core/constants/regex.dart';
+import 'package:daily_planner/core/style/routes_manager.dart';
+import 'package:daily_planner/core/style/strings_manager.dart';
 import 'package:daily_planner/core/widgets/custom_dialog.dart';
 import 'package:daily_planner/core/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,9 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -121,6 +123,7 @@ class _LoginState extends State<Login> {
   }
 
   signIn() async {
+    AuthUserProvider authProvider=Provider.of<AuthUserProvider>(context,listen: false);
     if (formKey.currentState?.validate()??false) {
       try {
         final credential = await FirebaseAuth.instance
@@ -131,6 +134,7 @@ class _LoginState extends State<Login> {
           ),
         );
         MyUser.User? user =await FirestoreHelper.getUser(credential.user!.uid);
+        authProvider.setUsers(user, credential.user);
         Fluttertoast.showToast(msg: StringsManager.accCreated);
         Navigator.pushNamedAndRemoveUntil(
             context, RoutesManager.homeName, (route) => false,

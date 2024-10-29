@@ -1,15 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:daily_planner/core/colors_manager.dart';
-import 'package:daily_planner/core/routes_manager.dart';
-import 'package:daily_planner/core/strings_manager.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:daily_planner/core/state_management/auth_provider.dart';
+import 'package:daily_planner/core/style/colors_manager.dart';
+import 'package:daily_planner/core/style/strings_manager.dart';
+import 'package:daily_planner/core/widgets/add_task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'dart:core';
-
 import '../../core/widgets/task_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -17,9 +14,11 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthUserProvider provider=Provider.of<AuthUserProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments;
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         // bottomNavigationBar: ,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +55,7 @@ class HomeView extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: IconButton(
                           onPressed: () {
-                            signOut(context);
+                           provider.signOut(context);
                           },
                           icon: Icon(
                             Icons.login_outlined,
@@ -98,7 +97,12 @@ class HomeView extends StatelessWidget {
                           ),
                           Padding(
                             padding: REdgeInsets.all(10.0),
-                            child: IconButton(onPressed: (){}, icon: Icon(Icons.add,
+                            child: IconButton(onPressed: (){
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) => const AddTask());
+                            }, icon: Icon(Icons.add,
                             size: 30.sp,color: ColorsManager.primary,)),
                           )
                         ],
@@ -109,7 +113,7 @@ class HomeView extends StatelessWidget {
                     Expanded(
                       child: ListView.builder(
                         itemCount: 2,
-                          itemBuilder: (context, index) => TaskWidget(
+                          itemBuilder: (context, index) => const TaskWidget(
                             task: "Go to the gym",
                           )),
                     )
@@ -122,10 +126,5 @@ class HomeView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  signOut(BuildContext context)async {
-    await FirebaseAuth.instance.signOut();
-    Navigator.pushNamedAndRemoveUntil(context, RoutesManager.loginName, (route) => false);
   }
 }

@@ -1,18 +1,17 @@
-import 'package:daily_planner/core/colors_manager.dart';
-import 'package:daily_planner/core/regex.dart';
-import 'package:daily_planner/core/routes_manager.dart';
-import 'package:daily_planner/core/strings_manager.dart';
+import 'package:daily_planner/core/state_management/auth_provider.dart';
+import 'package:daily_planner/core/style/colors_manager.dart';
+import 'package:daily_planner/core/constants/regex.dart';
+import 'package:daily_planner/core/style/routes_manager.dart';
+import 'package:daily_planner/core/style/strings_manager.dart';
 import 'package:daily_planner/core/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
-
+import 'package:provider/provider.dart';
 import '../../core/firebase/firestore_helper.dart';
 
 class SignUp extends StatelessWidget {
@@ -166,6 +165,10 @@ class SignUp extends StatelessWidget {
   }
 
   signup(BuildContext context) async {
+    AuthUserProvider authProvider=Provider.of<AuthUserProvider>(context,listen: false);
+    Lottie.asset(
+      StringsManager.loading,
+    );
     if (formKey.currentState?.validate() ?? false) {
       try {
         final credential =
@@ -173,13 +176,11 @@ class SignUp extends StatelessWidget {
           email: emailController.text.trim(),
           password: passController.text,
         );
-        FirestoreHelper.addUser(
+        var user = FirestoreHelper.addUser(
             name: nameController.text,
             email: emailController.text,
             userId: credential.user!.uid);
-        Lottie.asset(
-          StringsManager.loading,
-        );
+        authProvider.setUsers(user, credential.user);
         Fluttertoast.showToast(
             msg: StringsManager.accCreated,
             gravity: ToastGravity.BOTTOM,

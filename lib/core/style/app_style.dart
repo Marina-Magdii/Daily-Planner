@@ -1,5 +1,5 @@
-import 'package:daily_planner/core/colors_manager.dart';
-import 'package:daily_planner/core/strings_manager.dart';
+import 'package:daily_planner/core/style/colors_manager.dart';
+import 'package:daily_planner/core/style/strings_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

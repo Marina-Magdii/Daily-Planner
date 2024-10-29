@@ -1,12 +1,15 @@
+import 'package:daily_planner/core/state_management/auth_provider.dart';
 import 'package:daily_planner/core/style/app_style.dart';
-import 'package:daily_planner/core/routes_manager.dart';
+import 'package:daily_planner/core/style/routes_manager.dart';
 import 'package:daily_planner/features/get_statred/get_started.dart';
 import 'package:daily_planner/features/home/home_view.dart';
 import 'package:daily_planner/features/login/login_view.dart';
 import 'package:daily_planner/features/sign_up/sign_up_view.dart';
+import 'package:daily_planner/features/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'core/firebase/firebase_options.dart';
 
 void main()async {
@@ -14,7 +17,10 @@ void main()async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+      ChangeNotifierProvider(
+    create: (context)=> AuthUserProvider(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -32,12 +38,13 @@ class MyApp extends StatelessWidget {
         return  MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppStyle.lightTheme,
-          initialRoute: RoutesManager.getStarted,
+          initialRoute: RoutesManager.splashName,
           routes: {
             RoutesManager.homeName:(_)=>HomeView(),
             RoutesManager.getStarted:(_)=>GetStarted(),
             RoutesManager.signUpName:(_)=>SignUp(),
-            RoutesManager.loginName:(_)=>Login()
+            RoutesManager.loginName:(_)=>Login(),
+            RoutesManager.splashName:(_)=>SplashScreen(),
           },
           title: 'Daily Planner',
         );
