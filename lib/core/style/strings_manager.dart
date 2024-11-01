@@ -35,4 +35,10 @@ class StringsManager {
   static const String confirmPass = "Confirm your password";
   static const String hasAcc = "Already has an account?";
   static const String noAcc = "Don't have an account?";
+  static const String selectDate = "Select your date";
+  static const String taskCreated = "Task created successfully";
+  static const String noTaskCreated = "No tasks created yet";
+  static const String deleteConfirm =
+      "Are you sure you want to deleter your task?";
+  static const String noTasksAnimi = "assets/animations/notask.json";
 }

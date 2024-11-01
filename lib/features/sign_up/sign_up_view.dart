@@ -132,6 +132,9 @@ class SignUp extends StatelessWidget {
                     seconds: 1,
                   ),
                 ),
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
+            ),
             Padding(
               padding: REdgeInsets.all(20.0),
               child: ElevatedButton(

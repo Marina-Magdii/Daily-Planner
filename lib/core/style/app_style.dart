@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppStyle {
   static ThemeData lightTheme=ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.white,primary: Colors.white),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey,secondary: Colors.white),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 20,
@@ -27,6 +27,7 @@ class AppStyle {
       fontFamily: StringsManager.fontFamily,
         fontSize: 30.sp,
         fontWeight: FontWeight.bold,
+        color: ColorsManager.secondary
   ),
       titleMedium: TextStyle(
         fontFamily: StringsManager.fontFamily,
@@ -36,7 +37,7 @@ class AppStyle {
       titleSmall: TextStyle(
       fontFamily: StringsManager.fontFamily,
         fontSize: 20.sp,
-        fontWeight: FontWeight.bold,
+        color: ColorsManager.secondary
   ),
   )
   );

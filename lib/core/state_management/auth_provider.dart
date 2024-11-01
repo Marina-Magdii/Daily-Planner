@@ -7,27 +7,28 @@ import '../style/routes_manager.dart';
 
 class AuthUserProvider extends ChangeNotifier{
   MyUser.User? databaseUser;
-  User? fireUser;
+  User? fireBUser;
 
   setUsers (MyUser.User? dbUser, User? firebaseUser){
     databaseUser=dbUser;
-    fireUser=firebaseUser;
+    fireBUser=firebaseUser;
   }
   bool isLogged(){
     if(FirebaseAuth.instance.currentUser == null) return false;
+    fireBUser=FirebaseAuth.instance.currentUser;
     return true;
   }
 
  Future<void> retrieveData()async{
     try{
-      await FirestoreHelper.getUser(fireUser!.uid);
+      await FirestoreHelper.getUser(fireBUser!.uid);
     }catch(e){
       print(e);
     }
   }
   Future<void>signOut(BuildContext context)async {
     databaseUser=null;
-    fireUser=null;
+    fireBUser=null;
     await FirebaseAuth.instance.signOut();
     Navigator.pushNamedAndRemoveUntil(context, RoutesManager.loginName, (route) => false);
   }

@@ -89,6 +89,9 @@ class _LoginState extends State<Login> {
             SizedBox(
               height: 30.h,
             ),
+            SizedBox(
+              height: MediaQuery.of(context).viewInsets.bottom,
+            ),
             Padding(
               padding: REdgeInsets.all(20.0),
               child: ElevatedButton(
@@ -143,14 +146,22 @@ class _LoginState extends State<Login> {
         if (e.code == 'user-not-found') {
           showDialog(
             context: context,
-            builder: (context) => const CustomDialog(content: Text(StringsManager.noUser)),);
+            builder: (context) =>  CustomDialog(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                content: const Text(StringsManager.noUser)),);
           // return
           //   ScaffoldMessenger.of(context).showSnackBar(
           //     const SnackBar(content: Text(StringsManager.noUser)));
         } else if (e.code == 'wrong-password') {
           showDialog(
             context: context,
-            builder: (context) => const CustomDialog(content: Text(StringsManager.wrongPass)),);
+            builder: (context) =>  CustomDialog(
+              onTap: (){
+                Navigator.pop(context);
+              },
+                content: Text(StringsManager.wrongPass)),);
           // return ScaffoldMessenger.of(context).showSnackBar(
           //     const SnackBar(content: Text(StringsManager.wrongPass)));
         }
